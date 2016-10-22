@@ -7,6 +7,7 @@
 (function($) { // Hide scope, no $ conflict
 
 	var pluginName = 'timeEntry';
+	var dst_hour = false;
 
 	/** Create the time entry plugin.
 		<p>Sets an input field to add a spinner for time entry.</p>
@@ -428,7 +429,7 @@
 			@return {boolean} <code>true</code> to continue, <code>false</code> to stop processing. */
 		_doKeyPress: function(event) {
 			var chr = String.fromCharCode(event.charCode === undefined ? event.keyCode : event.charCode);
-			if (chr < ' ') {
+			if (chr < ' ' && chr !== '*') {
 				return true;
 			}
 			var inst = plugin._getInst(event.target);
@@ -444,7 +445,17 @@
 			if (chr === inst.options.separator) {
 				this._changeField(inst, +1, false);
 			}
+			else if (chr === '*' && inst._field === 0) {
+				inst._lastChr = '*'
+			}
 			else if (chr >= '0' && chr <= '9') { // Allow direct entry of date
+				if (inst._field === 0) {
+					if (chr === '1' && inst._lastChr === '*') {
+						dst_hour = true;
+					} else {
+						dst_hour = false;
+					}
+				}
 				var key = parseInt(chr, 10);
 				var value = parseInt(inst._lastChr + chr, 10);
 				var hour = (inst._field !== 0 ? inst._selectedHour :
@@ -747,6 +758,10 @@
 			if (currentTime.length >= 2) {
 				var isAM = !inst.options.show24Hours && (value.indexOf(inst.options.ampmNames[0]) > -1);
 				var isPM = !inst.options.show24Hours && (value.indexOf(inst.options.ampmNames[1]) > -1);
+				if (currentTime[0] == '*1') {
+					dst_hour = true
+					currentTime[0] == '01'
+				}
 				var hour = parseInt(currentTime[0], 10);
 				hour = (isNaN(hour) ? 0 : hour);
 				hour = ((isAM || isPM) && hour === 12 ? 0 : hour) + (isPM ? 12 : 0);
@@ -788,9 +803,9 @@
 			@private
 			@param inst {object} The instance settings. */
 		_showTime: function(inst) {
-			var currentTime = (inst.options.unlimitedHours ? inst._selectedHour :
+			var currentTime = (dst_hour ? '*1' : (inst.options.unlimitedHours ? inst._selectedHour :
 				this._formatNumber(inst.options.show24Hours ? inst._selectedHour :
-				((inst._selectedHour + 11) % 12) + 1)) + inst.options.separator +
+				((inst._selectedHour + 11) % 12) + 1))) + inst.options.separator +
 				this._formatNumber(inst._selectedMinute) +
 				(inst.options.showSeconds ? inst.options.separator +
 				this._formatNumber(inst._selectedSecond) : '') +
