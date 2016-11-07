@@ -108,7 +108,7 @@
 			unlimitedHours: false,
 			timeSteps: [1, 1, 1],
 			initialField: null,
-			noSeparatorEntry: false,
+			noSeparatorEntry: true,
 			tabToExit: false,
 			useMouseWheel: true,
 			defaultTime: null,
