@@ -787,9 +787,14 @@
       @param fields {number[]} The current time components (hours, minutes, seconds).
       @return {number[]} The constrained time components (hours, minutes, seconds). */
     _constrainTime: function(inst, fields) {
+      var fallbackDate = new Date();
+      fallbackDate.setHours(0);
+      fallbackDate.setMinutes(0);
+      fallbackDate.setSeconds(0);
+
       var specified = (fields !== null && fields !== undefined);
       if (!specified) {
-        var now = this._determineTime(inst.options.defaultTime, inst) || new Date();
+        var now = this._determineTime(inst.options.defaultTime, inst) || fallbackDate;
         fields = [now.getHours(), now.getMinutes(), now.getSeconds()];
       }
       var reset = false;
