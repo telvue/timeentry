@@ -310,7 +310,7 @@
       $.extend(inst.options, ($.isFunction(inst.options.beforeShow) ?
         inst.options.beforeShow.apply(input, [input]) : {}));
         plugin._parseTime(inst, elem.nodeName ? null : elem);
-      setTimeout(function() { plugin._showField(inst); }, 10);
+      setTimeout(function() { plugin._showField(inst); }, 0);
     },
 
     /** Note that the field has been exited.
