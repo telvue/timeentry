@@ -397,7 +397,9 @@
 							// Move to next time field, or out if at the end
 							plugin._changeField(inst, +1, true)));
 				case 35: if (event.ctrlKey) { // Clear time on ctrl+end
-							plugin._setValue(inst, '');
+							plugin._setTime(inst, null);
+							inst._field = 0;
+							plugin._showField(inst);
 						}
 						else { // Last field on end
 							inst._field = Math.max(1, inst._secondField, inst._ampmField);
@@ -416,7 +418,11 @@
 				case 38: plugin._adjustField(inst, +1); break; // Increment time field on up
 				case 39: plugin._changeField(inst, +1, false); break; // Next field on right
 				case 40: plugin._adjustField(inst, -1); break; // Decrement time field on down
-				case 46: plugin._setValue(inst, ''); break; // Clear time on delete
+				case 46: // Clear time on delete
+					plugin._setTime(inst, null);
+					inst._field = 0;
+					plugin._showField(inst);
+					break;
 				case 8: inst._lastChr = ''; // Fall through
 				default: return true;
 			}
