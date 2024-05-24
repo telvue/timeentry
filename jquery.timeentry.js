@@ -1,4 +1,5 @@
 /* http://keith-wood.name/timeEntry.html
+	 https://github.com/telvue/timeentry
    Time entry for jQuery v2.0.1.
    Written by Keith Wood (kbwood{at}iinet.com.au) June 2007.
    Available under the MIT (https://github.com/jquery/jquery/blob/master/MIT-LICENSE.txt) license.
