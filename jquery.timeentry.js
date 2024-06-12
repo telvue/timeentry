@@ -403,7 +403,7 @@
               // Need to get this to the back of the event queue.
               setTimeout(function() {
                 inst._field = 0;
-                inst.elem.val('');
+                plugin._setValue(inst, '')
               }, 0);
             }
             else { // Last field on end
@@ -429,7 +429,7 @@
           // Need to get this to the back of the event queue.
           setTimeout(function() {
             inst._field = 0;
-            inst.elem.val('');
+            plugin._setValue(inst, '')
           }, 0);
           break;
         case 8: inst._lastChr = ''; // Fall through
